@@ -22,6 +22,7 @@ import java.util.List;
 
 import de.sormuras.bartholdy.Result;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import platform.tooling.support.MavenRepo;
@@ -32,6 +33,7 @@ import platform.tooling.support.Request;
  */
 class MultiReleaseJarTests {
 
+	@Disabled("https://github.com/junit-team/junit5/issues/2764")
 	@Test
 	void checkDefault() throws Exception {
 		var variant = "default";
