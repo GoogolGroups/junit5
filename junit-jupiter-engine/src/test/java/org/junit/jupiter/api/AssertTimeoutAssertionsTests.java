@@ -49,7 +49,7 @@ class AssertTimeoutAssertionsTests {
 
 	// --- executable ----------------------------------------------------------
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutForExecutableThatCompletesBeforeTheTimeout() {
 		changed.get().set(false);
 		assertTimeout(ofMillis(500), () -> changed.get().set(true));
@@ -58,7 +58,7 @@ class AssertTimeoutAssertionsTests {
 		assertTimeout(ofMillis(500), nix, () -> "message");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutForExecutableThatThrowsAnException() {
 		RuntimeException exception = assertThrows(RuntimeException.class, () -> assertTimeout(ofMillis(500), () -> {
 			throw new RuntimeException("not this time");
@@ -66,28 +66,28 @@ class AssertTimeoutAssertionsTests {
 		assertMessageEquals(exception, "not this time");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutForExecutableThatThrowsAnAssertionFailedError() {
 		AssertionFailedError exception = assertThrows(AssertionFailedError.class,
 			() -> assertTimeout(ofMillis(500), () -> fail("enigma")));
 		assertMessageEquals(exception, "enigma");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutForExecutableThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class,
 			() -> assertTimeout(ofMillis(10), this::nap));
 		assertMessageStartsWith(error, "execution exceeded timeout of 10 ms by");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutWithMessageForExecutableThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class,
 			() -> assertTimeout(ofMillis(10), this::nap, "Tempus Fugit"));
 		assertMessageStartsWith(error, "Tempus Fugit ==> execution exceeded timeout of 10 ms by");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutWithMessageSupplierForExecutableThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class,
 			() -> assertTimeout(ofMillis(10), this::nap, () -> "Tempus" + " " + "Fugit"));
@@ -96,7 +96,7 @@ class AssertTimeoutAssertionsTests {
 
 	// --- supplier ------------------------------------------------------------
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutForSupplierThatCompletesBeforeTheTimeout() {
 		changed.get().set(false);
 		String result = assertTimeout(ofMillis(500), () -> {
@@ -109,7 +109,7 @@ class AssertTimeoutAssertionsTests {
 		assertEquals("Tempus Fugit", assertTimeout(ofMillis(500), () -> "Tempus Fugit", () -> "message"));
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutForSupplierThatThrowsAnException() {
 		RuntimeException exception = assertThrows(RuntimeException.class, () -> {
 			assertTimeout(ofMillis(500), () -> {
@@ -120,7 +120,7 @@ class AssertTimeoutAssertionsTests {
 		assertMessageEquals(exception, "not this time");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutForSupplierThatThrowsAnAssertionFailedError() {
 		AssertionFailedError exception = assertThrows(AssertionFailedError.class, () -> {
 			assertTimeout(ofMillis(500), () -> {
@@ -131,7 +131,7 @@ class AssertTimeoutAssertionsTests {
 		assertMessageEquals(exception, "enigma");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutForSupplierThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class, () -> {
 			assertTimeout(ofMillis(10), () -> {
@@ -142,7 +142,7 @@ class AssertTimeoutAssertionsTests {
 		assertMessageStartsWith(error, "execution exceeded timeout of 10 ms by");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutWithMessageForSupplierThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class, () -> {
 			assertTimeout(ofMillis(10), () -> {
@@ -153,7 +153,7 @@ class AssertTimeoutAssertionsTests {
 		assertMessageStartsWith(error, "Tempus Fugit ==> execution exceeded timeout of 10 ms by");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutWithMessageSupplierForSupplierThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class, () -> {
 			assertTimeout(ofMillis(10), () -> {
@@ -166,7 +166,7 @@ class AssertTimeoutAssertionsTests {
 
 	// -- executable - preemptively ---
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyForExecutableThatCompletesBeforeTheTimeout() {
 		changed.get().set(false);
 		assertTimeoutPreemptively(ofMillis(500), () -> changed.get().set(true));
@@ -175,7 +175,7 @@ class AssertTimeoutAssertionsTests {
 		assertTimeoutPreemptively(ofMillis(500), nix, () -> "message");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyForExecutableThatThrowsAnException() {
 		RuntimeException exception = assertThrows(RuntimeException.class,
 			() -> assertTimeoutPreemptively(ofMillis(500), () -> {
@@ -184,14 +184,14 @@ class AssertTimeoutAssertionsTests {
 		assertMessageEquals(exception, "not this time");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyForExecutableThatThrowsAnAssertionFailedError() {
 		AssertionFailedError exception = assertThrows(AssertionFailedError.class,
 			() -> assertTimeoutPreemptively(ofMillis(500), () -> fail("enigma")));
 		assertMessageEquals(exception, "enigma");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyForExecutableThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class,
 			() -> assertTimeoutPreemptively(PREEMPTIVE_TIMEOUT, this::waitForInterrupt));
@@ -200,7 +200,7 @@ class AssertTimeoutAssertionsTests {
 		assertStackTraceContains(error.getCause().getStackTrace(), "CountDownLatch", "await");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyWithMessageForExecutableThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class,
 			() -> assertTimeoutPreemptively(PREEMPTIVE_TIMEOUT, this::waitForInterrupt, "Tempus Fugit"));
@@ -210,7 +210,7 @@ class AssertTimeoutAssertionsTests {
 		assertStackTraceContains(error.getCause().getStackTrace(), "CountDownLatch", "await");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyWithMessageSupplierForExecutableThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class,
 			() -> assertTimeoutPreemptively(PREEMPTIVE_TIMEOUT, this::waitForInterrupt,
@@ -221,14 +221,14 @@ class AssertTimeoutAssertionsTests {
 		assertStackTraceContains(error.getCause().getStackTrace(), "CountDownLatch", "await");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyWithMessageSupplierForExecutableThatCompletesBeforeTheTimeout() {
 		assertTimeoutPreemptively(ofMillis(500), nix, () -> "Tempus" + " " + "Fugit");
 	}
 
 	// -- supplier - preemptively ---
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyForSupplierThatCompletesBeforeTheTimeout() {
 		changed.get().set(false);
 		String result = assertTimeoutPreemptively(ofMillis(500), () -> {
@@ -241,7 +241,7 @@ class AssertTimeoutAssertionsTests {
 		assertEquals("Tempus Fugit", assertTimeoutPreemptively(ofMillis(500), () -> "Tempus Fugit", () -> "message"));
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyForSupplierThatThrowsAnException() {
 		RuntimeException exception = assertThrows(RuntimeException.class, () -> {
 			assertTimeoutPreemptively(ofMillis(500), () -> {
@@ -252,7 +252,7 @@ class AssertTimeoutAssertionsTests {
 		assertMessageEquals(exception, "not this time");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyForSupplierThatThrowsAnAssertionFailedError() {
 		AssertionFailedError exception = assertThrows(AssertionFailedError.class, () -> {
 			assertTimeoutPreemptively(ofMillis(500), () -> {
@@ -263,7 +263,7 @@ class AssertTimeoutAssertionsTests {
 		assertMessageEquals(exception, "enigma");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyForSupplierThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class, () -> {
 			assertTimeoutPreemptively(PREEMPTIVE_TIMEOUT, () -> {
@@ -277,7 +277,7 @@ class AssertTimeoutAssertionsTests {
 		assertStackTraceContains(error.getCause().getStackTrace(), "CountDownLatch", "await");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyWithMessageForSupplierThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class, () -> {
 			assertTimeoutPreemptively(PREEMPTIVE_TIMEOUT, () -> {
@@ -292,7 +292,7 @@ class AssertTimeoutAssertionsTests {
 		assertStackTraceContains(error.getCause().getStackTrace(), "CountDownLatch", "await");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyWithMessageSupplierForSupplierThatCompletesAfterTheTimeout() {
 		AssertionFailedError error = assertThrows(AssertionFailedError.class, () -> {
 			assertTimeoutPreemptively(PREEMPTIVE_TIMEOUT, () -> {
@@ -307,7 +307,7 @@ class AssertTimeoutAssertionsTests {
 		assertStackTraceContains(error.getCause().getStackTrace(), "CountDownLatch", "await");
 	}
 
-	@Test
+	@RepeatedTest(100)
 	void assertTimeoutPreemptivelyUsesThreadsWithSpecificNamePrefix() {
 		AtomicReference<String> threadName = new AtomicReference<>("");
 		assertTimeoutPreemptively(ofMillis(1000), () -> threadName.set(Thread.currentThread().getName()));
